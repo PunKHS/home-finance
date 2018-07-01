@@ -26,24 +26,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.authenticationManager = authenticationManager;
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
-        // @formatter:off
-        http
-                // enable cors
-                .cors().and().requestMatchers().antMatchers("/oauth/**", "/*").and()
-                // These from the above are secured by the following way
-                .authorizeRequests().antMatchers("/", LOGIN).permitAll()
-                // These from the rest are secured by the following way
-                .anyRequest().authenticated().and()
-                // Set login page
-                .formLogin().loginPage(LOGIN).permitAll().defaultSuccessUrl(PROFILE)
-                // Set logout handling
-                .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS);
-        // @formatter:on
-
-    }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        // @formatter:off
+//        http
+//                // enable cors
+//                .cors().and().requestMatchers().antMatchers("/oauth/**", "/*").and()
+//                // These from the above are secured by the following way
+//                .authorizeRequests().antMatchers("/", LOGIN).permitAll()
+//                // These from the rest are secured by the following way
+//                .anyRequest().authenticated().and()
+//                // Set login page
+//                .formLogin().loginPage(LOGIN).permitAll().defaultSuccessUrl(PROFILE)
+//                // Set logout handling
+//                .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS);
+//        // @formatter:on
+//
+//    }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
