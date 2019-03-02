@@ -38,4 +38,13 @@ public class Transaction {
 
     public Transaction() {
     }
+
+    public Transaction(User user, Timestamp timestamp, Category category, int quantity, BigDecimal price, String comments) {
+        this.user = user;
+        this.timestamp = timestamp;
+        this.category = category;
+        this.quantity = quantity;
+        this.price = price;
+        this.comments = comments;
+    }
 }

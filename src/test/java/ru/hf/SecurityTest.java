@@ -73,21 +73,19 @@ public class SecurityTest {
     public void givenAdminRoleAndGetAllCategoriesOK() throws Exception {
         final String token = obtainAccessToken("admin", "password");
         System.out.println("token:" + token);
-        mockMvc.perform(get("/categories/get_all").param("access_token", token)).andExpect(status().isOk());
+        mockMvc.perform(get("/categories/get_all").param("access_token", token))
+                .andExpect(status()
+                        .isOk());
     }
 
     @Test
-    public void givenUserRoleAndGetAllCategoriesOK() throws Exception {
+    public void givenUserRoleAndGetAllCategoriesForbidden() throws Exception {
         final String token = obtainAccessToken("user", "password");
         System.out.println("token:" + token);
-        mockMvc.perform(get("/categories/get_all").param("access_token", token)).andExpect(status().isOk());
+        mockMvc.perform(get("/categories/get_all").param("access_token", token))
+                .andExpect(status()
+                        .isForbidden());
     }
 
-    @Test
-    public void givenUnknownRoleAndGetAllCategoriesOK() throws Exception {
-        final String token = obtainAccessToken("unknown", "password");
-        System.out.println("token:" + token);
-        mockMvc.perform(get("/categories/get_all").param("access_token", token)).andExpect(status().isOk());
-    }
 }
 
