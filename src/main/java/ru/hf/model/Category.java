@@ -12,7 +12,7 @@ public class Category {
     @Id
     @Column(name = "CATEGORY_ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long categoryID;
+    private Long id;
 
     @Column(name = "MAIN_CATEGORY", nullable = false)
     private String mainCategory;
@@ -24,9 +24,5 @@ public class Category {
     private String description;
 
     public Category() {
-    }
-
-    public Category(Long categoryID) {
-        this.categoryID = categoryID;
     }
 }

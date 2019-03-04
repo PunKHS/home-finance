@@ -7,12 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.hf.model.Transaction;
+import ru.hf.model.User;
 
 import java.util.UUID;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, UUID> {
 
-    @Query(value = "SELECT t FROM Transaction t WHERE t.user = :userName ORDER BY t.timestamp")
-    Page<Transaction> getAllForUserName(Pageable pageable, @Param("userName") String userName);
+    @Query(value = "SELECT t FROM Transaction t WHERE t.user = :user ORDER BY t.timestamp")
+    Page<Transaction> getAllForUserName(Pageable pageable, @Param("user") User user);
 }

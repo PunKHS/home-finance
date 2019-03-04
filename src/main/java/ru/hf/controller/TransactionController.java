@@ -26,7 +26,7 @@ public class TransactionController {
     public ResponseEntity<?> add(@RequestBody Transaction transaction) {
         if (transaction != null) {
             Transaction result = transactionService.add(transaction);
-            logger.info("Transaction [" + transaction.getTransID() + "] was successfully added");
+            logger.info("Transaction [" + transaction.getId() + "] was successfully added");
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(new CustomError("Error"), HttpStatus.BAD_REQUEST);
