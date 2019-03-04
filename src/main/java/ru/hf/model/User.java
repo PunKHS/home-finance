@@ -21,18 +21,23 @@ public class User implements UserDetails, Serializable {
     @Column(name = "USER_NAME")
     private String username;
 
+    @JsonIgnore
     @Column(name = "PASSWORD")
     private String password;
 
+    @JsonIgnore
     @Column(name = "ACCOUNT_EXPIRED")
     private boolean accountExpired;
 
+    @JsonIgnore
     @Column(name = "ACCOUNT_LOCKED")
     private boolean accountLocked;
 
+    @JsonIgnore
     @Column(name = "CREDENTIALS_EXPIRED")
     private boolean credentialsExpired;
 
+    @JsonIgnore
     @Column(name = "ENABLED")
     private boolean enabled;
 
