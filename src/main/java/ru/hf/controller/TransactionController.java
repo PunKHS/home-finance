@@ -26,10 +26,10 @@ public class TransactionController {
     public ResponseEntity<?> add(@RequestBody Transaction transaction) {
         if (transaction != null) {
             Transaction result = transactionService.add(transaction);
-            logger.info("Transaction [" + transaction.getTransID() + "] successfully added");
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            logger.info("Transaction [" + transaction.getTransID() + "] was successfully added");
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>(new CustomError("Error adding transactions"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new CustomError("Error"), HttpStatus.BAD_REQUEST);
         }
     }
 

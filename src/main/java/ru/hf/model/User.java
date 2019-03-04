@@ -36,6 +36,13 @@ public class User implements UserDetails, Serializable {
     @Column(name = "ENABLED")
     private boolean enabled;
 
+    public User() {
+    }
+
+    public User(Long userID) {
+        this.id = userID;
+    }
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "USERS_AUTHORITIES",
             joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID"),
