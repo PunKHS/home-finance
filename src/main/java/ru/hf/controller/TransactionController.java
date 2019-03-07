@@ -7,7 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hf.model.Transaction;
 import ru.hf.service.TransactionService;
-import ru.hf.util.CustomError;
+import ru.hf.util.ErrorResponse;
+import ru.hf.util.NotFoundException;
 
 import java.util.logging.Logger;
 
@@ -24,13 +25,9 @@ public class TransactionController {
 
     @PostMapping(value = "/", produces = "application/json")
     public ResponseEntity<?> add(@RequestBody Transaction transaction) {
-        if (transaction != null) {
-            Transaction result = transactionService.add(transaction);
-            logger.info("Transaction [" + transaction.getId() + "] was successfully added");
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(new CustomError("Error"), HttpStatus.BAD_REQUEST);
-        }
+        Transaction result = transactionService.add(transaction);
+        logger.info("Transaction [" + transaction.getId() + "] was successfully added");
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/get_all_for_username", params = {"userName", "page", "size"}, produces = "application/json")
@@ -41,9 +38,11 @@ public class TransactionController {
         if (size > MAX_PAGE_SIZE) size = MAX_PAGE_SIZE;
         Page<Transaction> resultPage = transactionService.getAllForUserName(userName, page, size);
         if (page > resultPage.getTotalPages()) {
-            return new ResponseEntity<>(new CustomError("Page not found"), HttpStatus.NOT_FOUND);
+            throw new NotFoundException("Page not found");
         } else if (resultPage.getTotalElements() == 0)
-            return new ResponseEntity<>(new CustomError("Events not found"), HttpStatus.NOT_FOUND);
+            throw new NotFoundException("Events not found");
         return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 }
+
+
