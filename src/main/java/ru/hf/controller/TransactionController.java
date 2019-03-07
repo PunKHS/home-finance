@@ -1,6 +1,7 @@
 package ru.hf.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,8 @@ public class TransactionController {
 
     private final static Logger logger = Logger.getLogger(String.valueOf(CategoryController.class));
 
-    private final int MAX_PAGE_SIZE = 10;
+    @Value("${page.size.max}")
+    private int maxSizeOfPage;
 
     @Autowired
     TransactionService transactionService;
@@ -35,7 +37,7 @@ public class TransactionController {
     public ResponseEntity<?> getAllForUserName(@RequestParam("userName") String userName,
                                                @RequestParam("page") int page,
                                                @RequestParam("size") int size) {
-        if (size > MAX_PAGE_SIZE) size = MAX_PAGE_SIZE;
+        if (size > maxSizeOfPage) size = maxSizeOfPage;
         Page<Transaction> resultPage = transactionService.getAllForUserName(userName, page, size);
         if (page > resultPage.getTotalPages()) {
             throw new NotFoundException("Page not found");
