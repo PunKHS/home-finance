@@ -1,5 +1,6 @@
 package ru.hf.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ public class Transaction {
     @Id
     @Column(name = "TRANSACTION_ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView(View.Id.class)
     private Long id;
 
     @ManyToOne

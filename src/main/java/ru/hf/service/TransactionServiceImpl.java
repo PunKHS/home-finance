@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 import ru.hf.model.Transaction;
 import ru.hf.model.User;
 import ru.hf.repository.TransactionRepository;
-import ru.hf.repository.UserRepository;
+
+import java.util.List;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -15,17 +16,18 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
     @Override
     public Transaction add(Transaction transaction) {
         return transactionRepository.saveAndFlush(transaction);
     }
 
     @Override
-    public Page<Transaction> getAllForUserName(String userName, int page, int size) {
-        User user = userRepository.findByUsername(userName);
+    public List<Transaction> getAllForUserName(User user) {
+        return transactionRepository.getAllForUserName(user);
+    }
+
+    @Override
+    public Page<Transaction> getAllForUserName(User user, int page, int size) {
         return transactionRepository.getAllForUserName(PageRequest.of(page, size), user);
     }
 }
