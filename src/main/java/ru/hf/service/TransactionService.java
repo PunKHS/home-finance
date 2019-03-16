@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TransactionService {
 
-    Transaction add(Transaction transaction);
+    Transaction save(Transaction transaction);
 
     List<Transaction> getAllForUserName(User user);
 

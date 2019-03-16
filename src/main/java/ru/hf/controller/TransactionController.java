@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.hf.model.Transaction;
 import ru.hf.model.User;
@@ -32,11 +33,26 @@ public class TransactionController {
     @Autowired
     UserDetailsService userService;
 
+    @Transactional
     @PostMapping(value = "/", produces = "application/json")
     @JsonView(View.Id.class)
-    public ResponseEntity<?> add(@RequestBody Transaction transaction) {
-        Transaction result = transactionService.add(transaction);
-        logger.info("Transaction [" + transaction.getId() + "] was successfully added");
+    public ResponseEntity<?> add(@RequestBody List<Transaction> transactionList) {
+        try {
+            for (Transaction transaction : transactionList) {
+                transactionService.save(transaction);
+            }
+            return new ResponseEntity<>(transactionList, HttpStatus.CREATED);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Transactional
+    @PutMapping(value = "/", produces = "application/json")
+    @JsonView(View.Id.class)
+    public ResponseEntity<?> update(@RequestBody Transaction transaction) {
+        Transaction result = transactionService.save(transaction);
+        logger.info("Transaction [" + transaction.getId() + "] was successfully updated");
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 

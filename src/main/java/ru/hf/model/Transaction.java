@@ -23,6 +23,7 @@ public class Transaction {
     private User user;
 
     @Column(name = "TIME", nullable = false)
+    @JsonView(View.Id.class)
     private Timestamp timestamp;
 
     @ManyToOne
