@@ -58,13 +58,12 @@ public class TransactionController {
 
     @Transactional
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         Transaction transaction = transactionService.getTransactionById(id);
         if (transaction == null) {
             throw new NotFoundException("Transaction " + id + " not found");
         }
         transactionService.delete(transaction);
-        return new ResponseEntity<>("Deleted transaction [" + id + "]", HttpStatus.OK);
     }
 
     @GetMapping(value = "/get_all_for_username", params = {"userName"}, produces = "application/json")

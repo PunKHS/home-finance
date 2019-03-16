@@ -35,13 +35,11 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    @Transactional
     public List<Transaction> getAllForUserName(User user) {
         return transactionRepository.getAllForUserName(user);
     }
 
     @Override
-    @Transactional
     public Page<Transaction> getAllForUserName(User user, int page, int size) {
         return transactionRepository.getAllForUserName(PageRequest.of(page, size), user);
     }
