@@ -25,6 +25,17 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
+    public void delete(Transaction transaction) {
+        transactionRepository.delete(transaction);
+    }
+
+    @Override
+    public Transaction getTransactionById(Long id) {
+        return transactionRepository.getTransactionById(id);
+    }
+
+    @Override
+    @Transactional
     public List<Transaction> getAllForUserName(User user) {
         return transactionRepository.getAllForUserName(user);
     }

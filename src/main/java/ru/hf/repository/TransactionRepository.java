@@ -15,6 +15,9 @@ import java.util.UUID;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, UUID> {
 
+    @Query(value = "SELECT t FROM Transaction t WHERE t.id = :id")
+    Transaction getTransactionById(@Param("id") Long id);
+
     @Query(value = "SELECT t FROM Transaction t WHERE t.user = :user ORDER BY t.timestamp")
     List<Transaction> getAllForUserName(@Param("user") User user);
 
