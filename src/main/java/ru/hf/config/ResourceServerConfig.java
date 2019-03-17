@@ -21,7 +21,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .csrf().disable()
                 .anonymous().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/console").permitAll()
+                .antMatchers("/", "/console", "/login**", "/js/**", "/error**").permitAll()
                 .antMatchers("/categories/**").access("hasAuthority('ADMIN')")
                 .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
     }
