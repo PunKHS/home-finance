@@ -1,11 +1,13 @@
 package ru.hf.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "CATEGORY")
 public class Category {
 
@@ -22,7 +24,4 @@ public class Category {
 
     @Column(name = "DESCRIPTION", nullable = false)
     private String description;
-
-    public Category() {
-    }
 }

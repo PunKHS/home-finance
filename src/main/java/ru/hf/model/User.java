@@ -2,6 +2,7 @@ package ru.hf.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -9,8 +10,9 @@ import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
-@Table(name = "USERS", uniqueConstraints = {@UniqueConstraint(columnNames = {"USER_NAME"})})
 @Data
+@NoArgsConstructor
+@Table(name = "USERS", uniqueConstraints = {@UniqueConstraint(columnNames = {"USER_NAME"})})
 public class User implements UserDetails, Serializable {
 
     @Id
@@ -40,9 +42,6 @@ public class User implements UserDetails, Serializable {
     @JsonIgnore
     @Column(name = "ENABLED")
     private boolean enabled;
-
-    public User() {
-    }
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "USERS_AUTHORITIES",

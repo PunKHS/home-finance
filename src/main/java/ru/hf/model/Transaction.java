@@ -2,6 +2,7 @@ package ru.hf.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "TRANSACTION")
 public class Transaction {
 
@@ -38,7 +40,4 @@ public class Transaction {
 
     @Column(name = "COMMENTS", nullable = false)
     private String comments;
-
-    public Transaction() {
-    }
 }

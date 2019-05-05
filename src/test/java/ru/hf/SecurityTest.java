@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @SpringBootTest(classes = Application.class)
-@ActiveProfiles("mvc")
+@ActiveProfiles("test")
 public class SecurityTest {
 
     @Autowired

@@ -33,37 +33,47 @@ public class TransactionController {
     @Autowired
     UserDetailsService userService;
 
+    @GetMapping(value = "/{id}", produces = "application/json")
+    public ResponseEntity<?> get(@PathVariable Long id) {
+        Transaction transaction = transactionService.getTransactionById(id);
+        if (transaction == null) {
+            throw new NotFoundException("Transaction " + id + " not found");
+        }
+        return new ResponseEntity<>(transaction, HttpStatus.OK);
+    }
+
     @Transactional
     @PostMapping(value = "/", produces = "application/json")
     @JsonView(View.Id.class)
-    public ResponseEntity<?> add(@RequestBody List<Transaction> transactionList) {
-        try {
-            for (Transaction transaction : transactionList) {
-                transactionService.save(transaction);
-            }
-            return new ResponseEntity<>(transactionList, HttpStatus.CREATED);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> create(@RequestBody List<Transaction> transactionList) {
+        for (Transaction transaction : transactionList) {
+            transactionService.save(transaction);
         }
+        return new ResponseEntity<>("Transactions have been created successfully", HttpStatus.CREATED);
     }
 
     @Transactional
     @PutMapping(value = "/", produces = "application/json")
     @JsonView(View.Id.class)
     public ResponseEntity<?> update(@RequestBody Transaction transaction) {
+        Transaction temp = transactionService.getTransactionById(transaction.getId());
+        if (temp == null) {
+            throw new NotFoundException("Transaction [" + transaction.getId() + "] not found");
+        }
         Transaction result = transactionService.save(transaction);
-        logger.info("Transaction [" + transaction.getId() + "] was successfully updated");
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
+        logger.info("Transaction [" + transaction.getId() + "] has been updated successfully");
+        return new ResponseEntity<>("Transaction [" + transaction.getId() + "] has been updated successfully", HttpStatus.CREATED);
     }
 
     @Transactional
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         Transaction transaction = transactionService.getTransactionById(id);
         if (transaction == null) {
-            throw new NotFoundException("Transaction " + id + " not found");
+            throw new NotFoundException("Transaction [" + id + "] not found");
         }
         transactionService.delete(transaction);
+        return new ResponseEntity<>("Transaction [" + transaction.getId() + "] has been deleted successfully", HttpStatus.OK);
     }
 
     @GetMapping(value = "/get_all_for_username", params = {"userName"}, produces = "application/json")
