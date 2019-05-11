@@ -3,66 +3,57 @@ package ru.hf.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "users")
 @Data
 @NoArgsConstructor
-@Table(name = "USERS", uniqueConstraints = {@UniqueConstraint(columnNames = {"USER_NAME"})})
-public class User implements UserDetails, Serializable {
+public class User extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_ID")
-    private Long id;
-
-    @Column(name = "USER_NAME")
+    @Column(name = "username")
     private String username;
 
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "email")
+    private String email;
+
     @JsonIgnore
-    @Column(name = "PASSWORD")
+    @Column(name = "password")
     private String password;
 
-    @JsonIgnore
-    @Column(name = "ACCOUNT_EXPIRED")
-    private boolean accountExpired;
-
-    @JsonIgnore
-    @Column(name = "ACCOUNT_LOCKED")
-    private boolean accountLocked;
-
-    @JsonIgnore
-    @Column(name = "CREDENTIALS_EXPIRED")
-    private boolean credentialsExpired;
-
-    @JsonIgnore
-    @Column(name = "ENABLED")
-    private boolean enabled;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "USERS_AUTHORITIES",
-            joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID"),
-            inverseJoinColumns = @JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "AUTHORITY_ID"))
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     @OrderBy
     @JsonIgnore
-    private Collection<Authority> authorities;
+    private List<Role> roles;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return !isAccountExpired();
+    public List<SimpleGrantedAuthority> getAuthority() {
+        List<SimpleGrantedAuthority> sga = new ArrayList<>();
+        for (Role role : this.getRoles()) {
+            sga.add(new SimpleGrantedAuthority(role.getName()));
+        }
+        return sga;
     }
 
     @Override
-    public boolean isAccountNonLocked() {
-        return !isAccountLocked();
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return !isCredentialsExpired();
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

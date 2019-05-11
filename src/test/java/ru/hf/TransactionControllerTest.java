@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.hf.model.Category;
+import ru.hf.model.Status;
 import ru.hf.model.Transaction;
 import ru.hf.model.User;
 import ru.hf.repository.TransactionRepository;
@@ -28,7 +29,6 @@ import java.nio.file.Files;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,7 +37,7 @@ import static org.mockito.BDDMockito.given;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(locations = "classpath:application-test.properties")
+@TestPropertySource(locations = "classpath:application-dev.properties")
 public class TransactionControllerTest {
 
     @Autowired
@@ -57,11 +57,6 @@ public class TransactionControllerTest {
         user.setId(1L);
         user.setUsername("username");
         user.setPassword("password");
-        user.setAccountExpired(false);
-        user.setAccountLocked(false);
-        user.setCredentialsExpired(false);
-        user.setEnabled(true);
-        user.setAuthorities(new HashSet<>(1));
 
         String dateText = "2019-05-04T00:00:00.000+0000";
         Date date = sdf.parse(dateText);
@@ -81,6 +76,7 @@ public class TransactionControllerTest {
         transaction.setPrice(new BigDecimal(109.40));
         transaction.setQuantity(10);
         transaction.setComments("Обычный комментарий");
+        transaction.setStatus(Status.ACTIVE);
 
         return transaction;
     }
@@ -120,7 +116,7 @@ public class TransactionControllerTest {
     @Test
     public void update() throws Exception {
         Transaction transactionMock = getMockTransaction();
-        given(transactionService.getTransactionById(transactionMock.getId())).willReturn(transactionMock);
+        given(transactionService.getById(transactionMock.getId())).willReturn(transactionMock);
         given(transactionService.save(transactionMock)).willReturn(transactionMock);
         String responseText = "Transaction [" + transactionMock.getId() + "] has been updated successfully";
 
@@ -141,7 +137,7 @@ public class TransactionControllerTest {
     @Test
     public void updateException() throws Exception {
         Transaction transactionMock = getMockTransaction();
-        given(transactionService.getTransactionById(transactionMock.getId())).willReturn(transactionMock);
+        given(transactionService.getById(transactionMock.getId())).willReturn(transactionMock);
         given(transactionService.save(any(Transaction.class))).willReturn(transactionMock);
 
         File requestFile = new ClassPathResource("transactions/update-exception-rq.json").getFile();
@@ -160,7 +156,7 @@ public class TransactionControllerTest {
     @Test
     public void delete() throws Exception {
         Transaction transactionMock = getMockTransaction();
-        given(transactionService.getTransactionById(transactionMock.getId())).willReturn(transactionMock);
+        given(transactionService.getById(transactionMock.getId())).willReturn(transactionMock);
         given(transactionService.save(any(Transaction.class))).willReturn(transactionMock);
         String responseText = "Transaction [" + transactionMock.getId() + "] has been deleted successfully";
 
@@ -177,7 +173,7 @@ public class TransactionControllerTest {
     @Test
     public void deleteNotFound() throws Exception {
         Transaction transactionMock = getMockTransaction();
-        given(transactionService.getTransactionById(transactionMock.getId())).willReturn(transactionMock);
+        given(transactionService.getById(transactionMock.getId())).willReturn(transactionMock);
         given(transactionService.save(any(Transaction.class))).willReturn(transactionMock);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders

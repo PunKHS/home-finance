@@ -10,13 +10,10 @@ import ru.hf.model.Category;
 import ru.hf.service.CategoryService;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
-
-    private final static Logger logger = Logger.getLogger(String.valueOf(CategoryController.class));
 
     @Autowired
     CategoryService categoryService;

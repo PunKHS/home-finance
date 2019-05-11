@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.hf.model.Transaction;
 import ru.hf.model.User;
 import ru.hf.model.View;
 import ru.hf.service.TransactionService;
+import ru.hf.service.UserService;
 import ru.hf.util.NotFoundException;
 
 import java.util.List;
@@ -31,11 +31,11 @@ public class TransactionController {
     TransactionService transactionService;
 
     @Autowired
-    UserDetailsService userService;
+    UserService userService;
 
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<?> get(@PathVariable Long id) {
-        Transaction transaction = transactionService.getTransactionById(id);
+        Transaction transaction = transactionService.getById(id);
         if (transaction == null) {
             throw new NotFoundException("Transaction " + id + " not found");
         }
@@ -56,7 +56,7 @@ public class TransactionController {
     @PutMapping(value = "/", produces = "application/json")
     @JsonView(View.Id.class)
     public ResponseEntity<?> update(@RequestBody Transaction transaction) {
-        Transaction temp = transactionService.getTransactionById(transaction.getId());
+        Transaction temp = transactionService.getById(transaction.getId());
         if (temp == null) {
             throw new NotFoundException("Transaction [" + transaction.getId() + "] not found");
         }
@@ -68,7 +68,7 @@ public class TransactionController {
     @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        Transaction transaction = transactionService.getTransactionById(id);
+        Transaction transaction = transactionService.getById(id);
         if (transaction == null) {
             throw new NotFoundException("Transaction [" + id + "] not found");
         }
@@ -79,10 +79,10 @@ public class TransactionController {
     @GetMapping(value = "/get_all_for_username", params = {"userName"}, produces = "application/json")
     @ResponseBody
     public ResponseEntity<?> getAllForUserName(@RequestParam("userName") String userName) {
-        User user = (User) userService.loadUserByUsername(userName);
+        User user = userService.getByUsername(userName);
         if (user == null)
             throw new NotFoundException("User [" + userName + "] not found");
-        List<Transaction> transactionList = transactionService.getAllForUserName(user);
+        List<Transaction> transactionList = transactionService.getByUser(user);
         if (transactionList.size() == 0)
             throw new NotFoundException("Events not found");
         return new ResponseEntity<>(transactionList, HttpStatus.OK);
@@ -94,10 +94,10 @@ public class TransactionController {
                                                @RequestParam("page") int page,
                                                @RequestParam("size") int size) {
         if (size > maxSizeOfPage) size = maxSizeOfPage;
-        User user = (User) userService.loadUserByUsername(userName);
+        User user = userService.getByUsername(userName);
         if (user == null)
             throw new NotFoundException("User [" + userName + "] not found");
-        Page<Transaction> resultPage = transactionService.getAllForUserName(user, page, size);
+        Page<Transaction> resultPage = transactionService.getByUser(user, page, size);
         if (page > resultPage.getTotalPages()) {
             throw new NotFoundException("Page not found");
         } else if (resultPage.getTotalElements() == 0)

@@ -1,0 +1,60 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1.0.0" author="punkhs">
+        <insert tableName="users">
+            <column name="username" value="admin"/>
+            <column name="first_name" value="admin"/>
+            <column name="last_name" value="admin"/>
+            <column name="password" value="$2a$04$I9Q2sDc4QGGg5WNTLmsz0.fvGv3OjoZyj81PrSFyGOqMphqfS2qKu"/>
+            <column name="email" value="admin@homefinance.ru"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="username" value="user"/>
+            <column name="first_name" value="user"/>
+            <column name="last_name" value="user"/>
+            <column name="password" value="$2a$04$I9Q2sDc4QGGg5WNTLmsz0.fvGv3OjoZyj81PrSFyGOqMphqfS2qKu"/>
+            <column name="email" value="user@homefinance.ru"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.0.1" author="punkhs">
+        <insert tableName="roles">
+            <column name="name" value="ROLE_ADMIN"/>
+        </insert>
+
+        <insert tableName="roles">
+            <column name="name" value="ROLE_USER"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.0.2" author="punkhs">
+        <insert tableName="user_roles">
+            <column name="user_id" value="1"/>
+            <column name="role_id" value="1"/>
+        </insert>
+
+        <insert tableName="user_roles">
+            <column name="user_id" value="2"/>
+            <column name="role_id" value="2"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="1.0.3" author="punkhs">
+        <insert tableName="category">
+            <column name="main_category" value="Продукты"/>
+            <column name="sub_category" value=""/>
+            <column name="description" value="Обычные продукты"/>
+        </insert>
+
+        <insert tableName="category">
+            <column name="main_category" value="Химия"/>
+            <column name="sub_category" value=""/>
+            <column name="description" value="Обычная химия"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

@@ -9,35 +9,29 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Entity
+@Table(name = "transaction")
 @Data
 @NoArgsConstructor
-@Table(name = "TRANSACTION")
-public class Transaction {
-
-    @Id
-    @Column(name = "TRANSACTION_ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonView(View.Id.class)
-    private Long id;
+public class Transaction extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "TIME", nullable = false)
+    @Column(name = "timestamp", nullable = false)
     @JsonView(View.Id.class)
     private Timestamp timestamp;
 
     @ManyToOne
-    @JoinColumn(name = "CATEGORY_ID", nullable = false)
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @Column(name = "QUANTITY", columnDefinition = "INT", nullable = false)
+    @Column(name = "quantity", columnDefinition = "INT", nullable = false)
     private int quantity;
 
-    @Column(name = "PRICE", nullable = false)
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
-    @Column(name = "COMMENTS", nullable = false)
+    @Column(name = "comments", nullable = false)
     private String comments;
 }

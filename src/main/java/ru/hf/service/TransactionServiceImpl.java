@@ -14,8 +14,12 @@ import java.util.List;
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
-    @Autowired
     private TransactionRepository transactionRepository;
+
+    @Autowired
+    public TransactionServiceImpl(TransactionRepository transactionRepository) {
+        this.transactionRepository = transactionRepository;
+    }
 
     @Override
     @Transactional
@@ -30,17 +34,17 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction getTransactionById(Long id) {
-        return transactionRepository.getTransactionById(id);
+    public Transaction getById(Long id) {
+        return transactionRepository.findById(id);
     }
 
     @Override
-    public List<Transaction> getAllForUserName(User user) {
-        return transactionRepository.getAllForUserName(user);
+    public List<Transaction> getByUser(User user) {
+        return transactionRepository.findByUser(user);
     }
 
     @Override
-    public Page<Transaction> getAllForUserName(User user, int page, int size) {
-        return transactionRepository.getAllForUserName(PageRequest.of(page, size), user);
+    public Page<Transaction> getByUser(User user, int page, int size) {
+        return transactionRepository.findByUser(PageRequest.of(page, size), user);
     }
 }

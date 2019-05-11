@@ -3,25 +3,22 @@ package ru.hf.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "category")
 @Data
 @NoArgsConstructor
-@Table(name = "CATEGORY")
-public class Category {
+public class Category extends BaseEntity {
 
-    @Id
-    @Column(name = "CATEGORY_ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "MAIN_CATEGORY", nullable = false)
+    @Column(name = "main_category", nullable = false)
     private String mainCategory;
 
-    @Column(name = "SUB_CATEGORY", nullable = false)
+    @Column(name = "sub_category", nullable = false)
     private String subCategory;
 
-    @Column(name = "DESCRIPTION", nullable = false)
+    @Column(name = "description", nullable = false)
     private String description;
 }

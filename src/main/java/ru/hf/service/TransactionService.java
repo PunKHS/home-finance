@@ -12,9 +12,9 @@ public interface TransactionService {
 
     void delete(Transaction transaction);
 
-    Transaction getTransactionById(Long id);
+    Transaction getById(Long id);
 
-    List<Transaction> getAllForUserName(User user);
+    List<Transaction> getByUser(User user);
 
-    Page<Transaction> getAllForUserName(User user, int page, int size);
+    Page<Transaction> getByUser(User user, int page, int size);
 }
