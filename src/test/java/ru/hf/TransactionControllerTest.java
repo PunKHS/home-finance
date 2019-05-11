@@ -88,7 +88,7 @@ public class TransactionControllerTest {
         String responseText = "Transactions have been created successfully";
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/transactions/")
+                .post("/api/v1/transactions/")
                 .accept(MediaType.APPLICATION_JSON)
                 .content(requestText)
                 .contentType(MediaType.APPLICATION_JSON);
@@ -104,7 +104,7 @@ public class TransactionControllerTest {
         String requestText = new String(Files.readAllBytes(requestFile.toPath()));
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/transactions/")
+                .post("/api/v1/transactions/")
                 .accept(MediaType.APPLICATION_JSON)
                 .content(requestText)
                 .contentType(MediaType.APPLICATION_JSON);
@@ -124,7 +124,7 @@ public class TransactionControllerTest {
         String requestText = new String(Files.readAllBytes(requestFile.toPath()));
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .put("/transactions/")
+                .put("/api/v1/transactions/")
                 .accept(MediaType.APPLICATION_JSON)
                 .content(requestText)
                 .contentType(MediaType.APPLICATION_JSON);
@@ -144,7 +144,7 @@ public class TransactionControllerTest {
         String requestText = new String(Files.readAllBytes(requestFile.toPath()));
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .put("/transactions/")
+                .put("/api/v1/transactions/")
                 .accept(MediaType.APPLICATION_JSON)
                 .content(requestText)
                 .contentType(MediaType.APPLICATION_JSON);
@@ -161,7 +161,7 @@ public class TransactionControllerTest {
         String responseText = "Transaction [" + transactionMock.getId() + "] has been deleted successfully";
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete("/transactions/1")
+                .delete("/api/v1/transactions/1")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -177,7 +177,7 @@ public class TransactionControllerTest {
         given(transactionService.save(any(Transaction.class))).willReturn(transactionMock);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete("/transactions/2")
+                .delete("/api/v1/transactions/2")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON);
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();

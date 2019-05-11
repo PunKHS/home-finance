@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.web.FilterChainProxy;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -74,7 +73,7 @@ public class SecurityTest {
     public void givenAdminRoleAndGetAllCategoriesOK() throws Exception {
         final String token = obtainAccessToken("admin", "password");
         System.out.println("token:" + token);
-        mockMvc.perform(get("/categories/get_all").param("access_token", token))
+        mockMvc.perform(get("/api/v1/categories/get_all").param("access_token", token))
                 .andExpect(status()
                         .isOk());
     }
@@ -83,7 +82,7 @@ public class SecurityTest {
     public void givenUserRoleAndGetAllCategoriesForbidden() throws Exception {
         final String token = obtainAccessToken("user", "password");
         System.out.println("token:" + token);
-        mockMvc.perform(get("/categories/get_all").param("access_token", token))
+        mockMvc.perform(get("/api/v1/categories/get_all").param("access_token", token))
                 .andExpect(status()
                         .isForbidden());
     }

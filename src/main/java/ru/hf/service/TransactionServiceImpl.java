@@ -1,10 +1,12 @@
 package ru.hf.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.hf.model.Status;
 import ru.hf.model.Transaction;
 import ru.hf.model.User;
 import ru.hf.repository.TransactionRepository;
@@ -12,6 +14,7 @@ import ru.hf.repository.TransactionRepository;
 import java.util.List;
 
 @Service
+@Slf4j
 public class TransactionServiceImpl implements TransactionService {
 
     private TransactionRepository transactionRepository;
@@ -30,7 +33,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public void delete(Transaction transaction) {
-        transactionRepository.delete(transaction);
+        transaction.setStatus(Status.DELETED);
+        transactionRepository.saveAndFlush(transaction);
+        log.info("Transaction with id [{}] has been deleted successfully", transaction.getId());
     }
 
     @Override

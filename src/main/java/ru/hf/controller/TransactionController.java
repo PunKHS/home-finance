@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import ru.hf.model.Status;
 import ru.hf.model.Transaction;
 import ru.hf.model.User;
 import ru.hf.model.View;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/transactions")
+@RequestMapping("/api/v1/transactions")
 public class TransactionController {
 
     private final static Logger logger = Logger.getLogger(String.valueOf(CategoryController.class));
@@ -47,6 +48,7 @@ public class TransactionController {
     @JsonView(View.Id.class)
     public ResponseEntity<?> create(@RequestBody List<Transaction> transactionList) {
         for (Transaction transaction : transactionList) {
+            transaction.setStatus(Status.ACTIVE);
             transactionService.save(transaction);
         }
         return new ResponseEntity<>("Transactions have been created successfully", HttpStatus.CREATED);
@@ -60,6 +62,7 @@ public class TransactionController {
         if (temp == null) {
             throw new NotFoundException("Transaction [" + transaction.getId() + "] not found");
         }
+        transaction.setStatus(Status.ACTIVE);
         Transaction result = transactionService.save(transaction);
         logger.info("Transaction [" + transaction.getId() + "] has been updated successfully");
         return new ResponseEntity<>("Transaction [" + transaction.getId() + "] has been updated successfully", HttpStatus.CREATED);
