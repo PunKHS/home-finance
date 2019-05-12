@@ -18,9 +18,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
     @Query(value = "SELECT t FROM Transaction t WHERE t.id = :id")
     Transaction findById(@Param("id") Long id);
 
-    @Query(value = "SELECT t FROM Transaction t WHERE t.user = :user ORDER BY t.timestamp")
+    @Query(value = "SELECT t FROM Transaction t WHERE t.user = :user AND t.status = 'ACTIVE' ORDER BY t.timestamp")
     List<Transaction> findByUser(@Param("user") User user);
 
-    @Query(value = "SELECT t FROM Transaction t WHERE t.user = :user ORDER BY t.timestamp")
+    @Query(value = "SELECT t FROM Transaction t WHERE t.user = :user AND t.status = 'ACTIVE' ORDER BY t.timestamp")
     Page<Transaction> findByUser(Pageable pageable, @Param("user") User user);
 }
