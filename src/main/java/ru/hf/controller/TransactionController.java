@@ -62,8 +62,9 @@ public class TransactionController {
         if (temp == null) {
             throw new NotFoundException("Transaction [" + transaction.getId() + "] not found");
         }
+        transaction.setCreated(temp.getCreated());
         transaction.setStatus(Status.ACTIVE);
-        Transaction result = transactionService.save(transaction);
+        transactionService.save(transaction);
         logger.info("Transaction [" + transaction.getId() + "] has been updated successfully");
         return new ResponseEntity<>("Transaction [" + transaction.getId() + "] has been updated successfully", HttpStatus.CREATED);
     }
