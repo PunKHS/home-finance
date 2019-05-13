@@ -1,4 +1,4 @@
-package ru.hf;
+package ru.hf.controller;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +20,6 @@ import ru.hf.model.Category;
 import ru.hf.model.Status;
 import ru.hf.model.Transaction;
 import ru.hf.model.User;
-import ru.hf.repository.TransactionRepository;
 import ru.hf.service.TransactionService;
 
 import java.io.File;
@@ -41,13 +40,10 @@ import static org.mockito.BDDMockito.given;
 public class TransactionControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
-
-    @Autowired
-    TransactionRepository transactionRepository;
+    private MockMvc mockMvc;
 
     @MockBean
-    TransactionService transactionService;
+    private TransactionService transactionService;
 
     private static final SimpleDateFormat sdf =
             new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
