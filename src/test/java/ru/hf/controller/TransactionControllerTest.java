@@ -16,22 +16,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.hf.model.Category;
-import ru.hf.model.Status;
 import ru.hf.model.Transaction;
-import ru.hf.model.User;
 import ru.hf.service.TransactionService;
 
 import java.io.File;
-import java.math.BigDecimal;
 import java.nio.file.Files;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static ru.hf.util.TransactionMock.getDefaultTransaction;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -44,38 +38,6 @@ public class TransactionControllerTest {
 
     @MockBean
     private TransactionService transactionService;
-
-    private static final SimpleDateFormat sdf =
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-
-    private Transaction getMockTransaction() throws Exception {
-        User user = new User();
-        user.setId(1L);
-        user.setUsername("username");
-        user.setPassword("password");
-
-        String dateText = "2019-05-04T00:00:00.000+0000";
-        Date date = sdf.parse(dateText);
-        Timestamp timestamp = new Timestamp(date.getTime());
-
-        Category category = new Category();
-        category.setId(1L);
-        category.setMainCategory("Продукты");
-        category.setSubCategory("");
-        category.setDescription("Обычные продукты");
-
-        Transaction transaction = new Transaction();
-        transaction.setId(1L);
-        transaction.setUser(user);
-        transaction.setTimestamp(timestamp);
-        transaction.setCategory(category);
-        transaction.setPrice(new BigDecimal(109.40));
-        transaction.setQuantity(10);
-        transaction.setComments("Обычный комментарий");
-        transaction.setStatus(Status.ACTIVE);
-
-        return transaction;
-    }
 
     @Test
     public void create() throws Exception {
@@ -111,7 +73,7 @@ public class TransactionControllerTest {
 
     @Test
     public void update() throws Exception {
-        Transaction transactionMock = getMockTransaction();
+        Transaction transactionMock = getDefaultTransaction();
         given(transactionService.getById(transactionMock.getId())).willReturn(transactionMock);
         given(transactionService.save(transactionMock)).willReturn(transactionMock);
         String responseText = "Transaction [" + transactionMock.getId() + "] has been updated successfully";
@@ -132,7 +94,7 @@ public class TransactionControllerTest {
 
     @Test
     public void updateException() throws Exception {
-        Transaction transactionMock = getMockTransaction();
+        Transaction transactionMock = getDefaultTransaction();
         given(transactionService.getById(transactionMock.getId())).willReturn(transactionMock);
         given(transactionService.save(any(Transaction.class))).willReturn(transactionMock);
 
@@ -151,7 +113,7 @@ public class TransactionControllerTest {
 
     @Test
     public void delete() throws Exception {
-        Transaction transactionMock = getMockTransaction();
+        Transaction transactionMock = getDefaultTransaction();
         given(transactionService.getById(transactionMock.getId())).willReturn(transactionMock);
         given(transactionService.save(any(Transaction.class))).willReturn(transactionMock);
         String responseText = "Transaction [" + transactionMock.getId() + "] has been deleted successfully";
@@ -168,7 +130,7 @@ public class TransactionControllerTest {
 
     @Test
     public void deleteNotFound() throws Exception {
-        Transaction transactionMock = getMockTransaction();
+        Transaction transactionMock = getDefaultTransaction();
         given(transactionService.getById(transactionMock.getId())).willReturn(transactionMock);
         given(transactionService.save(any(Transaction.class))).willReturn(transactionMock);
 

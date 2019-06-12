@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,18 +45,18 @@ public class TransactionController {
     }
 
     @Transactional
-    @PostMapping(value = "/", produces = "application/json")
+    @PostMapping(value = "/")
     @JsonView(View.Id.class)
     public ResponseEntity<?> create(@RequestBody List<Transaction> transactionList) {
         for (Transaction transaction : transactionList) {
             transaction.setStatus(Status.ACTIVE);
             transactionService.save(transaction);
         }
-        return new ResponseEntity<>("Transactions have been created successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>("Transactions have been created successfully", new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @Transactional
-    @PutMapping(value = "/", produces = "application/json")
+    @PutMapping(value = "/")
     @JsonView(View.Id.class)
     public ResponseEntity<?> update(@RequestBody Transaction transaction) {
         Transaction temp = transactionService.getById(transaction.getId());
@@ -66,7 +67,7 @@ public class TransactionController {
         transaction.setStatus(Status.ACTIVE);
         transactionService.save(transaction);
         logger.info("Transaction [" + transaction.getId() + "] has been updated successfully");
-        return new ResponseEntity<>("Transaction [" + transaction.getId() + "] has been updated successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>("Transaction [" + transaction.getId() + "] has been updated successfully", new HttpHeaders(), HttpStatus.CREATED);
     }
 
     @Transactional
@@ -77,7 +78,7 @@ public class TransactionController {
             throw new NotFoundException("Transaction [" + id + "] not found");
         }
         transactionService.delete(transaction);
-        return new ResponseEntity<>("Transaction [" + transaction.getId() + "] has been deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Transaction [" + transaction.getId() + "] has been deleted successfully", new HttpHeaders(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/get_all_for_username", params = {"userName"}, produces = "application/json")

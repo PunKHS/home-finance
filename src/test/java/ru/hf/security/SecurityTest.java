@@ -1,4 +1,4 @@
-package ru.hf;
+package ru.hf.security;
 
 import org.junit.Before;
 import org.junit.Test;
