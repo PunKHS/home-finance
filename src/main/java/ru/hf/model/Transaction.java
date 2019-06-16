@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
@@ -26,9 +28,11 @@ public class Transaction extends BaseEntity {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    @NotNull
     @Column(name = "quantity", columnDefinition = "INT", nullable = false)
     private int quantity;
 
+    @Positive
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 

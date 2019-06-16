@@ -14,24 +14,24 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
-public class BaseEntity {
+class BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @CreatedDate
     @JsonIgnore
+    @CreatedDate
     @Column(name = "created")
     private Date created;
 
-    @LastModifiedDate
     @JsonIgnore
+    @LastModifiedDate
     @Column(name = "updated")
     private Date updated;
 
-    @Enumerated(EnumType.STRING)
     @JsonIgnore
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
 }

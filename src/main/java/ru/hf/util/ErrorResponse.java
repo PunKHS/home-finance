@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ErrorResponse {
+class ErrorResponse {
 
     private int status;
 

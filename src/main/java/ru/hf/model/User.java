@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,20 +16,25 @@ import java.util.List;
 @NoArgsConstructor
 public class User extends BaseEntity {
 
-    @Column(name = "username")
+    @NotBlank
+    @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "first_name")
+    @NotBlank
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name")
+    @NotBlank
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "email")
+    @NotBlank
+    @Column(name = "email", nullable = false)
     private String email;
 
     @JsonIgnore
-    @Column(name = "password")
+    @NotBlank
+    @Column(name = "password", nullable = false)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

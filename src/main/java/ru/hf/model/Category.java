@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "category")
@@ -13,12 +14,13 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Category extends BaseEntity {
 
+    @NotBlank
     @Column(name = "main_category", nullable = false)
     private String mainCategory;
 
-    @Column(name = "sub_category", nullable = false)
+    @Column(name = "sub_category")
     private String subCategory;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 }
