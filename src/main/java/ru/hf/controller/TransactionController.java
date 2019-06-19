@@ -29,11 +29,15 @@ public class TransactionController {
     @Value("${page.size.max}")
     private int maxSizeOfPage;
 
-    @Autowired
-    TransactionService transactionService;
+    private TransactionService transactionService;
+
+    private UserService userService;
 
     @Autowired
-    UserService userService;
+    public TransactionController(TransactionService transactionService, UserService userService) {
+        this.transactionService = transactionService;
+        this.userService = userService;
+    }
 
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<?> get(@PathVariable Long id) {
